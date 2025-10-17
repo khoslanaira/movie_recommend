@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block title %}Recommendations - Movie Recommendation System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="fw-bold text-primary mb-3">
+                        <i class="fas fa-star me-2"></i>Movie Recommendations
+                    </h1>
+                    <p class="text-muted mb-4">
+                        Get personalized movie recommendations using our advanced AI models
+                    </p>
+                    
+                    <!-- User Input Form -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="number" class="form-control form-control-lg" 
+                                       id="user-id-input" placeholder="Enter User ID (1-943)" 
+                                       value="{{ request.args.get('user_id', '') }}">
+                                <button class="btn btn-primary btn-lg" onclick="getRecommendations()">
+                                    <i class="fas fa-search me-2"></i>Get Recommendations
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-secondary btn-lg" onclick="getRandomUser()">
+                                <i class="fas fa-random me-2"></i>Random User
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-state" class="text-center py-5" style="display: none;">
+        <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h5>Loading Recommendations...</h5>
+        <p class="text-muted">Please wait while our AI models process your request</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="alert alert-danger" style="display: none;">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span id="error-message">An error occurred while loading recommendations.</span>
+    </div>
+
+    <!-- User Info -->
+    <div id="user-info" class="row mb-4" style="display: none;">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-user me-2"></i>User Information
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>User ID:</strong> <span id="user-id-display">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Total Ratings:</strong> <span id="user-ratings-count">-</span>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-primary btn-sm" onclick="showUserHistory()">
+                                <i class="fas fa-history me-1"></i>View Rating History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div id="recommendations-container" style="display: none;">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-white mb-4">Recommendations by Model</h2>
+            </div>
+        </div>
+        
+        <!-- Model Tabs -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <ul class="nav nav-pills nav-fill" id="model-tabs" role="tablist">
+                    <!-- Tabs will be dynamically generated -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="model-tab-content">
+            <!-- Content will be dynamically generated -->
+        </div>
+    </div>
+
+    <!-- User History Modal -->
+    <div class="modal fade" id="userHistoryModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-history me-2"></i>User Rating History
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="user-history-content">
+                        <!-- User history will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentUserId = null;
+
+// Load recommendations if user_id is in URL
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('user_id');
+    if (userId) {
+        document.getElementById('user-id-input').value = userId;
+        getRecommendations();
+    }
+});
+
+async function getRecommendations() {
+    const userId = document.getElementById('user-id-input').value;
+    if (!userId || userId < 1 || userId > 943) {
+        showError('Please enter a valid User ID between 1 and 943');
+        return;
+    }
+
+    currentUserId = parseInt(userId);
+    showLoading();
+    hideError();
+    hideRecommendations();
+    hideUserInfo();
+
+    try {
+        // Get user info and recommendations in parallel
+        const [userResponse, recommendationsResponse] = await Promise.all([
+            axios.get(`/api/user/${userId}`),
+            axios.get(`/api/recommendations/${userId}`)
+        ]);
+
+        const userData = userResponse.data;
+        const recommendations = recommendationsResponse.data;
+
+        // Show user info
+        showUserInfo(userData);
+
+        // Show recommendations
+        showRecommendations(recommendations);
+
+    } catch (error) {
+        console.error('Error loading recommendations:', error);
+        if (error.response && error.response.status === 404) {
+            showError('User not found. Please enter a valid User ID.');
+        } else {
+            showError('Failed to load recommendations. Please try again.');
+        }
+    } finally {
+        hideLoading();
+    }
+}
+
+function getRandomUser() {
+    const randomUserId = Math.floor(Math.random() * 943) + 1;
+    document.getElementById('user-id-input').value = randomUserId;
+    getRecommendations();
+}
+
+function showLoading() {
+    document.getElementById('loading-state').style.display = 'block';
+}
+
+function hideLoading() {
+    document.getElementById('loading-state').style.display = 'none';
+}
+
+function showError(message) {
+    document.getElementById('error-message').textContent = message;
+    document.getElementById('error-state').style.display = 'block';
+}
+
+function hideError() {
+    document.getElementById('error-state').style.display = 'none';
+}
+
+function showUserInfo(userData) {
+    document.getElementById('user-id-display').textContent = userData.user_id;
+    document.getElementById('user-ratings-count').textContent = userData.total_ratings;
+    document.getElementById('user-info').style.display = 'block';
+}
+
+function hideUserInfo() {
+    document.getElementById('user-info').style.display = 'none';
+}
+
+function showRecommendations(recommendations) {
+    const container = document.getElementById('recommendations-container');
+    const tabsContainer = document.getElementById('model-tabs');
+    const contentContainer = document.getElementById('model-tab-content');
+
+    // Clear previous content
+    tabsContainer.innerHTML = '';
+    contentContainer.innerHTML = '';
+
+    // Create tabs and content for each model
+    let firstTab = true;
+    for (const [modelName, movies] of Object.entries(recommendations)) {
+        if (movies.length === 0) continue;
+
+        // Create tab
+        const tabId = `tab-${modelName.replace(/\s+/g, '-').toLowerCase()}`;
+        const tab = document.createElement('li');
+        tab.className = 'nav-item';
+        tab.innerHTML = `
+            <button class="nav-link ${firstTab ? 'active' : ''}" 
+                    id="${tabId}-tab" data-bs-toggle="pill" 
+                    data-bs-target="#${tabId}" type="button" role="tab">
+                ${modelName}
+            </button>
+        `;
+        tabsContainer.appendChild(tab);
+
+        // Create tab content
+        const tabContent = document.createElement('div');
+        tabContent.className = `tab-pane fade ${firstTab ? 'show active' : ''}`;
+        tabContent.id = tabId;
+        tabContent.innerHTML = `
+            <div class="row">
+                ${movies.map(movie => `
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="card movie-card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title fw-bold">${movie.title}</h6>
+                                <p class="card-text text-muted small">
+                                    <i class="fas fa-calendar me-1"></i>${movie.year}<br>
+                                    <i class="fas fa-tags me-1"></i>${movie.genres}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        contentContainer.appendChild(tabContent);
+
+        firstTab = false;
+    }
+
+    container.style.display = 'block';
+}
+
+function hideRecommendations() {
+    document.getElementById('recommendations-container').style.display = 'none';
+}
+
+async function showUserHistory() {
+    if (!currentUserId) return;
+
+    const modal = new bootstrap.Modal(document.getElementById('userHistoryModal'));
+    const content = document.getElementById('user-history-content');
+
+    try {
+        const response = await axios.get(`/api/user/${currentUserId}`);
+        const userData = response.data;
+
+        content.innerHTML = `
+            <div class="row">
+                <div class="col-12">
+                    <h6>User ${userData.user_id} - ${userData.total_ratings} Ratings</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Movie</th>
+                                    <th>Rating</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${userData.ratings.map(rating => `
+                                    <tr>
+                                        <td>${rating.title}</td>
+                                        <td>
+                                            <span class="badge bg-warning text-dark">
+                                                ${'★'.repeat(rating.rating)}${'☆'.repeat(5-rating.rating)}
+                                            </span>
+                                        </td>
+                                        <td>${rating.timestamp}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        content.innerHTML = '<p class="text-danger">Failed to load user history.</p>';
+    }
+
+    modal.show();
+}
+</script>
+{% endblock %}

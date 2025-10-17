@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}Model Comparison - Movie Recommendation System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="fw-bold text-primary mb-3">
+                        <i class="fas fa-chart-bar me-2"></i>Model Performance Comparison
+                    </h1>
+                    <p class="text-muted mb-4">
+                        Compare the performance of different recommendation algorithms using various metrics
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="fw-bold mb-4">
+                        <i class="fas fa-tachometer-alt me-2"></i>Performance Metrics
+                    </h4>
+                    
+                    <!-- Loading State -->
+                    <div id="metrics-loading" class="text-center py-4">
+                        <div class="spinner-border text-primary mb-3" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted">Loading performance metrics...</p>
+                    </div>
+
+                    <!-- Error State -->
+                    <div id="metrics-error" class="alert alert-danger" style="display: none;">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <span id="metrics-error-message">Failed to load performance metrics.</span>
+                    </div>
+
+                    <!-- Metrics Table -->
+                    <div id="metrics-table" style="display: none;">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Model</th>
+                                        <th>RMSE</th>
+                                        <th>MAE</th>
+                                        <th>Status</th>
+                                        <th>Performance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="metrics-tbody">
+                                    <!-- Metrics will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Descriptions -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-white mb-4">Algorithm Descriptions</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Neural Models -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold text-primary mb-3">
+                        <i class="fas fa-brain me-2"></i>Neural Models
+                    </h5>
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Matrix Factorization</h6>
+                        <p class="small text-muted">
+                            Learns user and item embeddings in a shared latent space using neural networks.
+                        </p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Two-Tower Model</h6>
+                        <p class="small text-muted">
+                            Separate user and item towers with dot product for scalable recommendations.
+                        </p>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold">Neural MF</h6>
+                        <p class="small text-muted">
+                            Combines matrix factorization with MLP layers for non-linear interactions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collaborative Filtering -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold text-success mb-3">
+                        <i class="fas fa-users-cog me-2"></i>Collaborative Filtering
+                    </h5>
+                    <div class="mb-3">
+                        <h6 class="fw-bold">SVD</h6>
+                        <p class="small text-muted">
+                            Singular Value Decomposition for matrix factorization-based recommendations.
+                        </p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="fw-bold">User-based KNN</h6>
+                        <p class="small text-muted">
+                            Finds similar users and recommends movies they liked.
+                        </p>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold">Item-based KNN</h6>
+                        <p class="small text-muted">
+                            Finds similar movies and recommends based on user's history.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content-Based & Baselines -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold text-warning mb-3">
+                        <i class="fas fa-tags me-2"></i>Content-Based & Baselines
+                    </h5>
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Content-Based</h6>
+                        <p class="small text-muted">
+                            Uses movie features (genres) with TF-IDF and cosine similarity.
+                        </p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Popular Movies</h6>
+                        <p class="small text-muted">
+                            Recommends movies with highest average ratings.
+                        </p>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold">Global Average</h6>
+                        <p class="small text-muted">
+                            Simple baseline predicting all ratings as global mean.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Evaluation Metrics Explanation -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="fw-bold mb-4">
+                        <i class="fas fa-info-circle me-2"></i>Evaluation Metrics Explained
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary">RMSE (Root Mean Square Error)</h6>
+                            <p class="small text-muted mb-3">
+                                Measures the square root of the average squared differences between predicted and actual ratings. 
+                                Lower values indicate better performance.
+                            </p>
+                            
+                            <h6 class="fw-bold text-success">MAE (Mean Absolute Error)</h6>
+                            <p class="small text-muted">
+                                Measures the average absolute differences between predicted and actual ratings. 
+                                More robust to outliers than RMSE.
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-warning">NDCG@10 (Normalized Discounted Cumulative Gain)</h6>
+                            <p class="small text-muted mb-3">
+                                Measures ranking quality by considering the position of relevant items in the top-10 recommendations.
+                            </p>
+                            
+                            <h6 class="fw-bold text-info">Hit Rate@10</h6>
+                            <p class="small text-muted">
+                                Percentage of users for whom at least one relevant item appears in the top-10 recommendations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Load performance metrics on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadPerformanceMetrics();
+});
+
+async function loadPerformanceMetrics() {
+    try {
+        const response = await axios.get('/api/model-performance');
+        const performance = response.data;
+        
+        displayPerformanceMetrics(performance);
+        
+    } catch (error) {
+        console.error('Error loading performance metrics:', error);
+        showMetricsError('Failed to load performance metrics. Please try again.');
+    } finally {
+        hideMetricsLoading();
+    }
+}
+
+function displayPerformanceMetrics(performance) {
+    const tbody = document.getElementById('metrics-tbody');
+    tbody.innerHTML = '';
+
+    for (const [modelName, metrics] of Object.entries(performance)) {
+        const row = document.createElement('tr');
+        
+        // Determine performance level
+        let performanceLevel = 'Unknown';
+        let performanceClass = 'text-muted';
+        
+        if (metrics.RMSE !== 'N/A' && metrics.RMSE !== 'Error') {
+            const rmse = parseFloat(metrics.RMSE);
+            if (rmse < 0.9) {
+                performanceLevel = 'Excellent';
+                performanceClass = 'text-success';
+            } else if (rmse < 1.1) {
+                performanceLevel = 'Good';
+                performanceClass = 'text-primary';
+            } else if (rmse < 1.3) {
+                performanceLevel = 'Fair';
+                performanceClass = 'text-warning';
+            } else {
+                performanceLevel = 'Poor';
+                performanceClass = 'text-danger';
+            }
+        }
+
+        row.innerHTML = `
+            <td><strong>${modelName}</strong></td>
+            <td>
+                <span class="badge ${metrics.RMSE === 'N/A' || metrics.RMSE === 'Error' ? 'bg-secondary' : 'bg-primary'}">
+                    ${metrics.RMSE}
+                </span>
+            </td>
+            <td>
+                <span class="badge ${metrics.MAE === 'N/A' || metrics.MAE === 'Error' ? 'bg-secondary' : 'bg-info'}">
+                    ${metrics.MAE}
+                </span>
+            </td>
+            <td>
+                <span class="badge ${metrics.Status === 'Trained' ? 'bg-success' : 'bg-secondary'}">
+                    ${metrics.Status}
+                </span>
+            </td>
+            <td>
+                <span class="${performanceClass}">
+                    <i class="fas fa-star me-1"></i>${performanceLevel}
+                </span>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    }
+
+    document.getElementById('metrics-table').style.display = 'block';
+}
+
+function showMetricsError(message) {
+    document.getElementById('metrics-error-message').textContent = message;
+    document.getElementById('metrics-error').style.display = 'block';
+}
+
+function hideMetricsLoading() {
+    document.getElementById('metrics-loading').style.display = 'none';
+}
+</script>
+{% endblock %}

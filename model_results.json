@@ -1,0 +1,72 @@
+[
+    {
+        "Model": "Global_Average",
+        "RMSE": 1.119,
+        "MAE": 0.947,
+        "Status": "trained",
+        "Performance": "Good"
+    },
+    {
+        "Model": "Popularity",
+        "RMSE": null,
+        "MAE": null,
+        "Status": "skipped",
+        "Performance": "Unknown"
+    },
+    {
+        "Model": "Content_Based",
+        "RMSE": null,
+        "MAE": null,
+        "Status": "skipped",
+        "Performance": "Unknown"
+    },
+    {
+        "Model": "SVD",
+        "RMSE": 1.028,
+        "MAE": 0.82,
+        "Status": "trained",
+        "Performance": "Excellent"
+    },
+    {
+        "Model": "User_KNN",
+        "RMSE": 1.102,
+        "MAE": 0.925,
+        "Status": "trained",
+        "Performance": "Good"
+    },
+    {
+        "Model": "Item_KNN",
+        "RMSE": 1.123,
+        "MAE": 0.944,
+        "Status": "trained",
+        "Performance": "Good"
+    },
+    {
+        "Model": "KNN_Means",
+        "RMSE": 1.109,
+        "MAE": 0.931,
+        "Status": "trained",
+        "Performance": "Good"
+    },
+    {
+        "Model": "Matrix_Factorization",
+        "RMSE": 1.039,
+        "MAE": 0.851,
+        "Status": "trained",
+        "Performance": "Excellent"
+    },
+    {
+        "Model": "Two_Tower",
+        "RMSE": 1.024,
+        "MAE": 0.816,
+        "Status": "trained",
+        "Performance": "Excellent"
+    },
+    {
+        "Model": "Neural_MF",
+        "RMSE": 1.051,
+        "MAE": 0.833,
+        "Status": "trained",
+        "Performance": "Excellent"
+    }
+]

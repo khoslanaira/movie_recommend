@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}About - Movie Recommendation System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="display-4 fw-bold text-primary mb-4">
+                        <i class="fas fa-info-circle me-3"></i>About This Project
+                    </h1>
+                    <p class="lead text-muted">
+                        A comprehensive Movie Recommendation System implementing multiple AI algorithms
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Overview -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="fw-bold text-primary mb-4">
+                        <i class="fas fa-project-diagram me-2"></i>Project Overview
+                    </h3>
+                    <p class="mb-4">
+                        This Movie Recommendation System is an academic project developed for IIT Ropar, 
+                        demonstrating the implementation and comparison of various recommendation algorithms. 
+                        The system uses the MovieLens 100K dataset to provide personalized movie recommendations 
+                        through multiple approaches including neural networks, collaborative filtering, and content-based filtering.
+                    </p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Key Features</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Multiple AI Algorithms</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Real-time Recommendations</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Interactive Web Interface</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Performance Comparison</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Comprehensive Evaluation</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Technologies Used</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-code text-primary me-2"></i>Python & Flask</li>
+                                <li><i class="fas fa-brain text-primary me-2"></i>PyTorch</li>
+                                <li><i class="fas fa-chart-line text-primary me-2"></i>Pandas & NumPy</li>
+                                <li><i class="fas fa-database text-primary me-2"></i>Scikit-learn</li>
+                                <li><i class="fas fa-paint-brush text-primary me-2"></i>Bootstrap & JavaScript</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Algorithms Implemented -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-white mb-4">Implemented Algorithms</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Neural Models -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="fw-bold text-primary mb-3">
+                        <i class="fas fa-brain me-2"></i>Neural Models
+                    </h4>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold">Matrix Factorization</h6>
+                        <p class="small text-muted">
+                            Learns user and item embeddings in a shared latent space using neural networks. 
+                            Uses dot product for rating prediction.
+                        </p>
+                        <span class="badge bg-primary">Deep Learning</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold">Two-Tower Model</h6>
+                        <p class="small text-muted">
+                            Separate user and item towers with linear layers, followed by dot product. 
+                            Designed for scalable recommendation systems.
+                        </p>
+                        <span class="badge bg-primary">Scalable</span>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-bold">Neural MF</h6>
+                        <p class="small text-muted">
+                            Combines matrix factorization with MLP layers to capture non-linear interactions 
+                            between user and item features.
+                        </p>
+                        <span class="badge bg-primary">Non-linear</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collaborative Filtering -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="fw-bold text-success mb-3">
+                        <i class="fas fa-users-cog me-2"></i>Collaborative Filtering
+                    </h4>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold">SVD (Singular Value Decomposition)</h6>
+                        <p class="small text-muted">
+                            Matrix factorization technique that decomposes the user-item rating matrix 
+                            into lower-dimensional representations.
+                        </p>
+                        <span class="badge bg-success">Matrix Factorization</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold">User-based KNN</h6>
+                        <p class="small text-muted">
+                            Finds users with similar rating patterns and recommends movies 
+                            that similar users have rated highly.
+                        </p>
+                        <span class="badge bg-success">Similarity-based</span>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-bold">Item-based KNN</h6>
+                        <p class="small text-muted">
+                            Finds movies with similar rating patterns and recommends movies 
+                            similar to those the user has rated highly.
+                        </p>
+                        <span class="badge bg-success">Item Similarity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content-Based & Baselines -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="fw-bold text-warning mb-3">
+                        <i class="fas fa-tags me-2"></i>Content-Based & Baselines
+                    </h4>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold">Content-Based Filtering</h6>
+                        <p class="small text-muted">
+                            Uses movie features (genres) with TF-IDF vectorization and cosine similarity 
+                            to find similar movies.
+                        </p>
+                        <span class="badge bg-warning">Feature-based</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold">Popular Movies</h6>
+                        <p class="small text-muted">
+                            Recommends movies with the highest average ratings, 
+                            providing a simple popularity-based baseline.
+                        </p>
+                        <span class="badge bg-warning">Popularity</span>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-bold">Global Average</h6>
+                        <p class="small text-muted">
+                            Simple baseline that predicts all ratings as the global mean rating, 
+                            used for comparison purposes.
+                        </p>
+                        <span class="badge bg-warning">Baseline</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dataset Information -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="fw-bold text-primary mb-4">
+                        <i class="fas fa-database me-2"></i>Dataset Information
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">MovieLens 100K Dataset</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Total Ratings:</strong> 100,000</li>
+                                <li><strong>Users:</strong> 1,000</li>
+                                <li><strong>Movies:</strong> 1,700</li>
+                                <li><strong>Rating Scale:</strong> 1-5 stars</li>
+                                <li><strong>Sparsity:</strong> ~94%</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Data Preprocessing</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Duplicate removal</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Minimum interaction filtering</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Temporal train-test split</li>
+                                <li><i class="fas fa-check text-success me-2"></i>User/item ID mapping</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Genre feature extraction</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Evaluation Metrics -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="fw-bold text-primary mb-4">
+                        <i class="fas fa-chart-line me-2"></i>Evaluation Metrics
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Rating Prediction Metrics</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>RMSE:</strong> Root Mean Square Error</li>
+                                <li><strong>MAE:</strong> Mean Absolute Error</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Ranking Metrics</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>NDCG@10:</strong> Normalized Discounted Cumulative Gain</li>
+                                <li><strong>Hit Rate@10:</strong> Percentage of relevant items in top-10</li>
+                                <li><strong>Precision@10:</strong> Fraction of recommended items that are relevant</li>
+                                <li><strong>Recall@10:</strong> Fraction of relevant items that are recommended</li>
+                                <li><strong>F1@10:</strong> Harmonic mean of precision and recall</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Implementation -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="fw-bold text-primary mb-4">
+                        <i class="fas fa-cogs me-2"></i>Technical Implementation
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Backend Architecture</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-server text-primary me-2"></i>Flask Web Framework</li>
+                                <li><i class="fas fa-database text-primary me-2"></i>Pandas for Data Processing</li>
+                                <li><i class="fas fa-brain text-primary me-2"></i>PyTorch for Neural Networks</li>
+                                <li><i class="fas fa-chart-bar text-primary me-2"></i>Scikit-learn for ML Algorithms</li>
+                                <li><i class="fas fa-api text-primary me-2"></i>RESTful API Design</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Frontend Technologies</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-code text-success me-2"></i>HTML5 & CSS3</li>
+                                <li><i class="fas fa-paint-brush text-success me-2"></i>Bootstrap 5</li>
+                                <li><i class="fas fa-js text-success me-2"></i>JavaScript (ES6+)</li>
+                                <li><i class="fas fa-chart-line text-success me-2"></i>Axios for API calls</li>
+                                <li><i class="fas fa-mobile-alt text-success me-2"></i>Responsive Design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Academic Information -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="fw-bold text-primary mb-4">
+                        <i class="fas fa-graduation-cap me-2"></i>Academic Information
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Institution</h5>
+                            <p class="text-muted">Indian Institute of Technology Ropar (IIT Ropar)</p>
+                            
+                            <h5 class="fw-bold">Project Type</h5>
+                            <p class="text-muted">Academic Project - Machine Learning & Data Mining</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold">Learning Objectives</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Machine Learning Implementation</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Deep Learning Applications</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Data Science Pipeline</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Software Engineering</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Research & Analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

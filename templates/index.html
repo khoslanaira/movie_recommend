@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Movie Recommendation System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card text-center py-5 mb-5 fade-in">
+                <div class="card-body">
+                    <h1 class="display-4 fw-bold text-primary mb-4">
+                        <i class="fas fa-film me-3"></i>
+                        Movie Recommendation System
+                    </h1>
+                    <p class="lead text-muted mb-4">
+                        Advanced AI-powered movie recommendations using multiple algorithms including 
+                        Neural Networks, Collaborative Filtering, and Content-Based Filtering
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="{{ url_for('recommendations') }}" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-star me-2"></i>Get Recommendations
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ url_for('compare') }}" class="btn btn-outline-primary btn-lg w-100">
+                                <i class="fas fa-chart-bar me-2"></i>Compare Models
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ url_for('chat') }}" class="btn btn-outline-success btn-lg w-100">
+                                <i class="fas fa-robot me-2"></i>AI Chat
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ url_for('about') }}" class="btn btn-outline-secondary btn-lg w-100">
+                                <i class="fas fa-info-circle me-2"></i>Learn More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center text-white mb-4">Dataset Statistics</h2>
+            <div class="row" id="stats-container">
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-film fa-3x text-primary mb-3"></i>
+                            <h3 class="fw-bold" id="total-movies">-</h3>
+                            <p class="text-muted">Total Movies</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-users fa-3x text-success mb-3"></i>
+                            <h3 class="fw-bold" id="total-users">-</h3>
+                            <p class="text-muted">Total Users</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-star fa-3x text-warning mb-3"></i>
+                            <h3 class="fw-bold" id="total-ratings">-</h3>
+                            <p class="text-muted">Total Ratings</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                            <h3 class="fw-bold" id="avg-rating">-</h3>
+                            <p class="text-muted">Average Rating</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center text-white mb-5">System Features</h2>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                            <h4 class="fw-bold">Neural Networks</h4>
+                            <p class="text-muted">
+                                Advanced deep learning models including Matrix Factorization, 
+                                Two-Tower Architecture, and Neural Collaborative Filtering
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users-cog fa-3x text-success mb-3"></i>
+                            <h4 class="fw-bold">Collaborative Filtering</h4>
+                            <p class="text-muted">
+                                User-based and item-based collaborative filtering algorithms 
+                                using SVD and K-Nearest Neighbors
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-tags fa-3x text-warning mb-3"></i>
+                            <h4 class="fw-bold">Content-Based</h4>
+                            <p class="text-muted">
+                                Genre-based recommendations using TF-IDF vectorization 
+                                and cosine similarity
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Start Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h3 class="fw-bold mb-4">Ready to Get Started?</h3>
+                    <p class="text-muted mb-4">
+                        Enter a user ID to get personalized movie recommendations from our AI models
+                    </p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="number" class="form-control form-control-lg" 
+                                       id="quick-user-id" placeholder="Enter User ID (1-943)">
+                                <button class="btn btn-primary btn-lg" onclick="quickRecommendations()">
+                                    <i class="fas fa-search me-2"></i>Get Recommendations
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Loading Recommendations...</h5>
+                <p class="text-muted">Please wait while our AI models process your request</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Load statistics on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadStats();
+});
+
+async function loadStats() {
+    try {
+        const response = await axios.get('/api/stats');
+        const stats = response.data;
+        
+        document.getElementById('total-movies').textContent = stats.total_movies.toLocaleString();
+        document.getElementById('total-users').textContent = stats.total_users.toLocaleString();
+        document.getElementById('total-ratings').textContent = stats.total_ratings.toLocaleString();
+        document.getElementById('avg-rating').textContent = stats.avg_rating;
+        
+        // Add fade-in animation
+        document.getElementById('stats-container').classList.add('fade-in');
+    } catch (error) {
+        console.error('Error loading stats:', error);
+        // Show error state
+        document.getElementById('total-movies').textContent = 'Error';
+        document.getElementById('total-users').textContent = 'Error';
+        document.getElementById('total-ratings').textContent = 'Error';
+        document.getElementById('avg-rating').textContent = 'Error';
+    }
+}
+
+function quickRecommendations() {
+    const userId = document.getElementById('quick-user-id').value;
+    if (!userId || userId < 1 || userId > 943) {
+        alert('Please enter a valid User ID between 1 and 943');
+        return;
+    }
+    
+    // Show loading modal
+    const modal = new bootstrap.Modal(document.getElementById('loadingModal'));
+    modal.show();
+    
+    // Redirect to recommendations page
+    setTimeout(() => {
+        window.location.href = `/recommendations?user_id=${userId}`;
+    }, 1000);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+[
+    {
+        "Model": "Improved_Matrix_Factorization",
+        "RMSE": 1.05,
+        "MAE": 0.841,
+        "Status": "trained",
+        "Performance": "Good"
+    },
+    {
+        "Model": "Deep_Two_Tower",
+        "RMSE": 1.047,
+        "MAE": 0.836,
+        "Status": "trained",
+        "Performance": "Good"
+    },
+    {
+        "Model": "Advanced_Neural_MF",
+        "RMSE": 1.057,
+        "MAE": 0.849,
+        "Status": "trained",
+        "Performance": "Good"
+    }
+]
