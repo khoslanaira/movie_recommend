@@ -384,15 +384,6 @@ FileNotFoundError: [Errno 2] No such file or directory
 
 This project is created for academic purposes at IIT Ropar. The code is provided as-is for educational use.
 
-## 👨‍💻 Author
-
-**Student Name**  
-**IIT Ropar**  
-**Course**: [Course Name]  
-**Instructor**: [Instructor Name]  
-**Academic Year**: [Year]
-
----
 
 ## 🎯 Project Success Criteria
 
